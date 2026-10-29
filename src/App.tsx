@@ -15,9 +15,32 @@ import { AuthModal } from './components/AuthModal';
 import { LegalModal } from './components/LegalModal';
 import { Footer } from './components/Footer';
 
+import { safeFetchJson } from './utils/apiSafe';
+
+const DEFAULT_USER: User = {
+  id: 'usr_destiny',
+  name: 'Destiny Ebaluegbefo',
+  email: 'ebaluegbefodestiny@gmail.com',
+  avatarUrl: 'https://lh3.googleusercontent.com/a/default-user=s96-c',
+  role: 'user',
+  trials: {
+    image_gen: true,
+    video_gen: true,
+    photo_swap: true,
+    video_swap: true,
+  },
+  authorizedOperations: [],
+};
+
 export default function App() {
   const [activeView, setActiveView] = useState<ActiveView>('home');
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User>(() => {
+    try {
+      const saved = localStorage.getItem('winer_user_data');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_USER;
+  });
 
   // Modals
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -27,42 +50,44 @@ export default function App() {
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [legalType, setLegalType] = useState<'terms' | 'privacy'>('terms');
 
-  // Load user session on mount
+  // Sync user session on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('winer_user_id');
-    if (savedToken) {
-      fetch('/api/auth/me', {
+    // Ensure default user is in local storage
+    if (!localStorage.getItem('winer_user_data')) {
+      localStorage.setItem('winer_user_data', JSON.stringify(currentUser));
+      localStorage.setItem('winer_user_id', currentUser.id);
+    }
+
+    const syncWithBackend = async () => {
+      const savedToken = localStorage.getItem('winer_user_id') || currentUser.id;
+      const { ok, data } = await safeFetchJson('/api/auth/me', {
         headers: { Authorization: `Bearer ${savedToken}` },
-      })
-        .then((res) => {
-          if (res.ok) return res.json();
-          throw new Error('Session expired');
-        })
-        .then((data) => {
-          if (data.user) setCurrentUser(data.user);
-        })
-        .catch(() => {
-          localStorage.removeItem('winer_user_id');
-        });
-    } else {
-      // Auto-initialize with Google user account so 4 trials are immediately available!
-      fetch('/api/auth/google', {
+      });
+
+      if (ok && data?.user) {
+        setCurrentUser(data.user);
+        localStorage.setItem('winer_user_data', JSON.stringify(data.user));
+        return;
+      }
+
+      // If /api/auth/me failed (e.g. on static Vercel), try registering or keep local
+      const googleRes = await safeFetchJson('/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: 'ebaluegbefodestiny@gmail.com',
-          name: 'Destiny Ebaluegbefo',
+          email: currentUser.email,
+          name: currentUser.name,
         }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.user) {
-            setCurrentUser(data.user);
-            localStorage.setItem('winer_user_id', data.token);
-          }
-        })
-        .catch(() => {});
-    }
+      });
+
+      if (googleRes.ok && googleRes.data?.user) {
+        setCurrentUser(googleRes.data.user);
+        localStorage.setItem('winer_user_data', JSON.stringify(googleRes.data.user));
+        localStorage.setItem('winer_user_id', googleRes.data.token || googleRes.data.user.id);
+      }
+    };
+
+    syncWithBackend();
   }, []);
 
   const handleOpenAuth = (tool: ActiveView = 'video_gen') => {
@@ -72,6 +97,7 @@ export default function App() {
 
   const handleAuthSuccess = (user: User, token: string, destinationTool?: ActiveView) => {
     setCurrentUser(user);
+    localStorage.setItem('winer_user_data', JSON.stringify(user));
     localStorage.setItem('winer_user_id', token);
     setAuthModalOpen(false);
     // TAKE USER DIRECTLY TO THE TARGET TOOL PAGE!

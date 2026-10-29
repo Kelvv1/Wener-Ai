@@ -10,6 +10,7 @@ import {
   Clock,
   ShieldCheck,
 } from 'lucide-react';
+import { safeFetchJson } from '../utils/apiSafe';
 
 export const ContactUs: React.FC = () => {
   const [name, setName] = useState('');

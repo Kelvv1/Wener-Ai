@@ -95,13 +95,7 @@ export const HeroHome: React.FC<HeroHomeProps> = ({ currentUser, onSelectTool, o
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
           {/* Prominent Primary: START FEATURE */}
           <button
-            onClick={() => {
-              if (currentUser) {
-                onSelectTool('video_gen');
-              } else {
-                onOpenAuth('video_gen');
-              }
-            }}
+            onClick={() => onSelectTool('video_gen')}
             className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-base sm:text-lg shadow-xl shadow-indigo-600/35 transition-all hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer ring-2 ring-indigo-400/40"
           >
             <Zap className="w-5 h-5 text-amber-300 fill-amber-300 animate-pulse" />
@@ -538,13 +532,7 @@ export const HeroHome: React.FC<HeroHomeProps> = ({ currentUser, onSelectTool, o
           Fast, photorealistic, and mobile-friendly.
         </p>
         <button
-          onClick={() => {
-            if (currentUser) {
-              onSelectTool('video_gen');
-            } else {
-              onOpenAuth('video_gen');
-            }
-          }}
+          onClick={() => onSelectTool('video_gen')}
           className="px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 cursor-pointer inline-flex items-center gap-2"
         >
           <Zap className="w-5 h-5 text-amber-300 fill-amber-300" />

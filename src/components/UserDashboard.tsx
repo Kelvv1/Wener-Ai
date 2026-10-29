@@ -21,6 +21,7 @@ import {
   ShieldCheck,
   DollarSign,
 } from 'lucide-react';
+import { safeFetchJson } from '../utils/apiSafe';
 
 interface UserDashboardProps {
   currentUser: User | null;
@@ -43,22 +44,24 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     if (!currentUser) return;
     setLoading(true);
 
-    // Fetch user creations
-    fetch('/api/creations', {
-      headers: { Authorization: `Bearer ${currentUser.id}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setCreations(data.creations || []))
-      .catch((e) => console.error(e));
+    const loadData = async () => {
+      const creationsRes = await safeFetchJson('/api/creations', {
+        headers: { Authorization: `Bearer ${currentUser.id}` },
+      });
+      if (creationsRes.data?.creations) {
+        setCreations(creationsRes.data.creations);
+      }
 
-    // Fetch user payments
-    fetch('/api/payments/my', {
-      headers: { Authorization: `Bearer ${currentUser.id}` },
-    })
-      .then((res) => res.json())
-      .then((data) => setPayments(data.payments || []))
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false));
+      const paymentsRes = await safeFetchJson('/api/payments/my', {
+        headers: { Authorization: `Bearer ${currentUser.id}` },
+      });
+      if (paymentsRes.data?.payments) {
+        setPayments(paymentsRes.data.payments);
+      }
+      setLoading(false);
+    };
+
+    loadData();
   }, [currentUser]);
 
   if (!currentUser) {
