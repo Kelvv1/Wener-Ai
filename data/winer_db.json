@@ -1,0 +1,254 @@
+{
+  "users": [
+    {
+      "id": "admin_1",
+      "name": "Ajibola Mubarak (Admin)",
+      "email": "admin@winerai.com",
+      "passwordHash": "0573f5c5a78745630fc8a8f1f37d6984bebd49486c51b00e5c7b0f6f15e35162",
+      "role": "admin",
+      "createdAt": "2026-10-29T11:57:18.960Z",
+      "trials": {
+        "image_gen": true,
+        "video_gen": true,
+        "photo_swap": true,
+        "video_swap": true
+      },
+      "authorizedOperations": []
+    },
+    {
+      "id": "demo_user_1",
+      "name": "Demo Creator",
+      "email": "creator@winerai.com",
+      "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+      "role": "user",
+      "createdAt": "2026-10-29T11:57:18.960Z",
+      "trials": {
+        "image_gen": false,
+        "video_gen": false,
+        "photo_swap": true,
+        "video_swap": true
+      },
+      "authorizedOperations": [
+        {
+          "id": "auth_op_56b58c33",
+          "tool": "image_gen",
+          "paymentId": "pay_c068bd8f9a0b",
+          "used": true,
+          "createdAt": "2026-10-29T11:58:41.457Z"
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_c068bd8f9a0b",
+      "userId": "demo_user_1",
+      "userEmail": "creator@winerai.com",
+      "userName": "Demo Creator",
+      "tool": "image_gen",
+      "durationLabel": "Single AI Image Operation",
+      "amount": 3000,
+      "currency": "NGN",
+      "provider": "OPay",
+      "accountName": "Ajibola Mubarak",
+      "accountNumber": "9063296466",
+      "transactionRef": "OPAY-TX-TEST999",
+      "senderName": "Demo Creator",
+      "senderBank": "OPay App",
+      "status": "verified",
+      "createdAt": "2026-10-29T11:58:33.674Z",
+      "adminNotes": "Verified on OPay app",
+      "verifiedAt": "2026-10-29T11:58:41.456Z"
+    },
+    {
+      "id": "pay_sample_1",
+      "userId": "demo_user_1",
+      "userEmail": "creator@winerai.com",
+      "userName": "Demo Creator",
+      "tool": "video_gen",
+      "durationSeconds": 120,
+      "durationLabel": "Over 30 seconds to 2 minutes",
+      "amount": 7000,
+      "currency": "NGN",
+      "provider": "OPay",
+      "accountName": "Ajibola Mubarak",
+      "accountNumber": "9063296466",
+      "transactionRef": "OPAY-TRX-98234190",
+      "senderName": "Mubarak Ajibola",
+      "senderBank": "Access Bank",
+      "notes": "Payment for 2-minute promotional clip",
+      "status": "verified",
+      "adminNotes": "Confirmed via OPay ledger",
+      "createdAt": "2026-10-27T11:57:18.960Z",
+      "verifiedAt": "2026-10-27T12:57:18.960Z"
+    }
+  ],
+  "creations": [
+    {
+      "userId": "demo_user_1",
+      "tool": "video_gen",
+      "title": "Lagos city drone shot",
+      "prompt": "Lagos city drone shot",
+      "style": "Drone Aerial",
+      "aspectRatio": "16:9",
+      "duration": 30,
+      "resultUrl": "https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4",
+      "resultThumb": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBmMTcyYSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxZTFiNGIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzQzMzhjYSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ciIGN4PSI2MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNTllMGIiIHN0b3Atb3BhY2l0eT0iMC44NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiMwNmI2ZDQiIHN0b3Atb3BhY2l0eT0iMC40NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGYxNzJhIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ibm9pc2UiPgogICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wNCIgbnVtT2N0YXZlcz0iNCIgcmVzdWx0PSJub2lzeSIgLz4KICAgICAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjEgMCAwIDAgMCAgMCAxIDAgMCAwICAwIDAgMSAwIDAgIDAgMCAwIDAuMTIgMCIvPgogICAgICA8ZmVDb21wb3NpdGUgaW4yPSJTb3VyY2VHcmFwaGljIiBpbj0ibm9pc3kiIG9wZXJhdG9yPSJhdG9wIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBCYXNlIC0tPgogIDxyZWN0IHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNiZ0dyYWQpIiAvPgoKICA8IS0tIFJlZmVyZW5jZSBpbWFnZSB1bmRlcmxheSBpZiBwcm92aWRlZCAtLT4KICAKCiAgPCEtLSBMdW1pbm91cyBBdG1vc3BoZXJpYyBHbG93IC0tPgogIDxjaXJjbGUgY3g9IjgzMiIgY3k9IjI3My42IiByPSIzMjQiIGZpbGw9InVybCgjZ2xvdykiIC8+CiAgPGNpcmNsZSBjeD0iMzg0IiBjeT0iNTAzLjk5OTk5OTk5OTk5OTk0IiByPSIyNTEuOTk5OTk5OTk5OTk5OTciIGZpbGw9IiMwNmI2ZDQiIG9wYWNpdHk9IjAuMjUiIGZpbHRlcj0iYmx1cig0MHB4KSIgLz4KCiAgPCEtLSBHZW9tZXRyaWMgSG9yaXpvbiAmIENvbXBvc2l0aW9uIExpbmVzIC0tPgogIDxwYXRoIGQ9Ik0gMCA1MTguNCBRIDY0MCA0MzIgMTI4MCA1MTguNCBMIDEyODAgNzIwIEwgMCA3MjAgWiIgZmlsbD0iIzBmMTcyYSIgb3BhY2l0eT0iMC43NSIgLz4KCiAgPCEtLSBDZW50cmFsIFNpbGhvdWV0dGUgLyBGb2NhbCBFbGVtZW50IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCwgMzk2LjAwMDAwMDAwMDAwMDA2KSBzY2FsZSgwLjkpIj4KICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iLTYwIiByeD0iNDUiIHJ5PSI1NSIgZmlsbD0iI2Y1OWUwYiIgb3BhY2l0eT0iMC45IiAvPgogICAgPHBhdGggZD0iTSAtODAgNjAgUSAwIC0yMCA4MCA2MCBMIDYwIDE2MCBMIC02MCAxNjAgWiIgZmlsbD0iIzA2YjZkNCIgb3BhY2l0eT0iMC43NSIgLz4KICAgIDxjaXJjbGUgY3g9Ii0xNSIgY3k9Ii03MCIgcj0iNCIgZmlsbD0iI2ZmZmZmZiIgLz4KICAgIDxjaXJjbGUgY3g9IjE1IiBjeT0iLTcwIiByPSI0IiBmaWxsPSIjZmZmZmZmIiAvPgogIDwvZz4KCiAgPCEtLSBTdHlsZSAmIE1ldGFkYXRhIEJhZGdlcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMiwgNDApIj4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJyZ2JhKDAsMCwwLDAuNjUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjE0IiB5PSIyMSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiI+V0lORVIgQUkg4oCiIERST05FIEFFUklBTDwvdGV4dD4KICA8L2c+CgogIDwhLS0gUHJvbXB0IGNhcHRpb24gYmFyIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyLCA2NTIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMjE2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9InJnYmEoMTAsMTQsMjYsMC44NSkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSIyMCIgeT0iMjYiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNlMmU4ZjAiPgogICAgICAiTGFnb3MgY2l0eSBkcm9uZSBzaG90IgogICAgPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBNYW5kYXRvcnkgQUkgVmVyaWZpY2F0aW9uIFdhdGVybWFyayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LCA2NjIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMzUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuOCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSI2OCIgeT0iMTgiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzOGJkZjgiIGxldHRlci1zcGFjaW5nPSIxIj4KICAgICAgV0lORVIgQUkgU1lOVEgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==",
+      "status": "completed",
+      "isTrial": true,
+      "cost": 0,
+      "id": "cr_b2ee00a18592",
+      "createdAt": "2026-10-29T11:58:53.360Z"
+    },
+    {
+      "userId": "demo_user_1",
+      "tool": "image_gen",
+      "title": "Golden Sunset over Lekki Peninsula",
+      "prompt": "Golden Sunset over Lekki Peninsula",
+      "style": "Photorealistic",
+      "aspectRatio": "16:9",
+      "resultUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA5MDkwYiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxODE4MWIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI3MjcyYSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ciIGN4PSI2MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3MTcxN2EiIHN0b3Atb3BhY2l0eT0iMC44NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiNlNGU0ZTciIHN0b3Atb3BhY2l0eT0iMC40NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDkwOTBiIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ibm9pc2UiPgogICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wNCIgbnVtT2N0YXZlcz0iNCIgcmVzdWx0PSJub2lzeSIgLz4KICAgICAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjEgMCAwIDAgMCAgMCAxIDAgMCAwICAwIDAgMSAwIDAgIDAgMCAwIDAuMTIgMCIvPgogICAgICA8ZmVDb21wb3NpdGUgaW4yPSJTb3VyY2VHcmFwaGljIiBpbj0ibm9pc3kiIG9wZXJhdG9yPSJhdG9wIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBCYXNlIC0tPgogIDxyZWN0IHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNiZ0dyYWQpIiAvPgoKICA8IS0tIFJlZmVyZW5jZSBpbWFnZSB1bmRlcmxheSBpZiBwcm92aWRlZCAtLT4KICAKCiAgPCEtLSBMdW1pbm91cyBBdG1vc3BoZXJpYyBHbG93IC0tPgogIDxjaXJjbGUgY3g9IjgzMiIgY3k9IjI3My42IiByPSIzMjQiIGZpbGw9InVybCgjZ2xvdykiIC8+CiAgPGNpcmNsZSBjeD0iMzg0IiBjeT0iNTAzLjk5OTk5OTk5OTk5OTk0IiByPSIyNTEuOTk5OTk5OTk5OTk5OTciIGZpbGw9IiNlNGU0ZTciIG9wYWNpdHk9IjAuMjUiIGZpbHRlcj0iYmx1cig0MHB4KSIgLz4KCiAgPCEtLSBHZW9tZXRyaWMgSG9yaXpvbiAmIENvbXBvc2l0aW9uIExpbmVzIC0tPgogIDxwYXRoIGQ9Ik0gMCA1MTguNCBRIDY0MCA0MzIgMTI4MCA1MTguNCBMIDEyODAgNzIwIEwgMCA3MjAgWiIgZmlsbD0iIzA5MDkwYiIgb3BhY2l0eT0iMC43NSIgLz4KCiAgPCEtLSBDZW50cmFsIFNpbGhvdWV0dGUgLyBGb2NhbCBFbGVtZW50IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCwgMzk2LjAwMDAwMDAwMDAwMDA2KSBzY2FsZSgwLjkpIj4KICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iLTYwIiByeD0iNDUiIHJ5PSI1NSIgZmlsbD0iIzcxNzE3YSIgb3BhY2l0eT0iMC45IiAvPgogICAgPHBhdGggZD0iTSAtODAgNjAgUSAwIC0yMCA4MCA2MCBMIDYwIDE2MCBMIC02MCAxNjAgWiIgZmlsbD0iI2U0ZTRlNyIgb3BhY2l0eT0iMC43NSIgLz4KICAgIDxjaXJjbGUgY3g9Ii0xNSIgY3k9Ii03MCIgcj0iNCIgZmlsbD0iI2ZmZmZmZiIgLz4KICAgIDxjaXJjbGUgY3g9IjE1IiBjeT0iLTcwIiByPSI0IiBmaWxsPSIjZmZmZmZmIiAvPgogIDwvZz4KCiAgPCEtLSBTdHlsZSAmIE1ldGFkYXRhIEJhZGdlcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMiwgNDApIj4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJyZ2JhKDAsMCwwLDAuNjUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjE0IiB5PSIyMSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiI+V0lORVIgQUkg4oCiIFBIT1RPUkVBTElTVElDPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBQcm9tcHQgY2FwdGlvbiBiYXIgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzIsIDY1MikiPgogICAgPHJlY3Qgd2lkdGg9IjEyMTYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0icmdiYSgxMCwxNCwyNiwwLjg1KSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjIwIiB5PSIyNiIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iI2UyZThmMCI+CiAgICAgICJHb2xkZW4gU3Vuc2V0IG92ZXIgTGVra2kgUGVuaW5zdWxhIgogICAgPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBNYW5kYXRvcnkgQUkgVmVyaWZpY2F0aW9uIFdhdGVybWFyayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LCA2NjIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMzUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuOCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSI2OCIgeT0iMTgiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzOGJkZjgiIGxldHRlci1zcGFjaW5nPSIxIj4KICAgICAgV0lORVIgQUkgU1lOVEgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==",
+      "resultThumb": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA5MDkwYiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxODE4MWIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI3MjcyYSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ciIGN4PSI2MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3MTcxN2EiIHN0b3Atb3BhY2l0eT0iMC44NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiNlNGU0ZTciIHN0b3Atb3BhY2l0eT0iMC40NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDkwOTBiIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ibm9pc2UiPgogICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wNCIgbnVtT2N0YXZlcz0iNCIgcmVzdWx0PSJub2lzeSIgLz4KICAgICAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjEgMCAwIDAgMCAgMCAxIDAgMCAwICAwIDAgMSAwIDAgIDAgMCAwIDAuMTIgMCIvPgogICAgICA8ZmVDb21wb3NpdGUgaW4yPSJTb3VyY2VHcmFwaGljIiBpbj0ibm9pc3kiIG9wZXJhdG9yPSJhdG9wIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBCYXNlIC0tPgogIDxyZWN0IHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNiZ0dyYWQpIiAvPgoKICA8IS0tIFJlZmVyZW5jZSBpbWFnZSB1bmRlcmxheSBpZiBwcm92aWRlZCAtLT4KICAKCiAgPCEtLSBMdW1pbm91cyBBdG1vc3BoZXJpYyBHbG93IC0tPgogIDxjaXJjbGUgY3g9IjgzMiIgY3k9IjI3My42IiByPSIzMjQiIGZpbGw9InVybCgjZ2xvdykiIC8+CiAgPGNpcmNsZSBjeD0iMzg0IiBjeT0iNTAzLjk5OTk5OTk5OTk5OTk0IiByPSIyNTEuOTk5OTk5OTk5OTk5OTciIGZpbGw9IiNlNGU0ZTciIG9wYWNpdHk9IjAuMjUiIGZpbHRlcj0iYmx1cig0MHB4KSIgLz4KCiAgPCEtLSBHZW9tZXRyaWMgSG9yaXpvbiAmIENvbXBvc2l0aW9uIExpbmVzIC0tPgogIDxwYXRoIGQ9Ik0gMCA1MTguNCBRIDY0MCA0MzIgMTI4MCA1MTguNCBMIDEyODAgNzIwIEwgMCA3MjAgWiIgZmlsbD0iIzA5MDkwYiIgb3BhY2l0eT0iMC43NSIgLz4KCiAgPCEtLSBDZW50cmFsIFNpbGhvdWV0dGUgLyBGb2NhbCBFbGVtZW50IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCwgMzk2LjAwMDAwMDAwMDAwMDA2KSBzY2FsZSgwLjkpIj4KICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iLTYwIiByeD0iNDUiIHJ5PSI1NSIgZmlsbD0iIzcxNzE3YSIgb3BhY2l0eT0iMC45IiAvPgogICAgPHBhdGggZD0iTSAtODAgNjAgUSAwIC0yMCA4MCA2MCBMIDYwIDE2MCBMIC02MCAxNjAgWiIgZmlsbD0iI2U0ZTRlNyIgb3BhY2l0eT0iMC43NSIgLz4KICAgIDxjaXJjbGUgY3g9Ii0xNSIgY3k9Ii03MCIgcj0iNCIgZmlsbD0iI2ZmZmZmZiIgLz4KICAgIDxjaXJjbGUgY3g9IjE1IiBjeT0iLTcwIiByPSI0IiBmaWxsPSIjZmZmZmZmIiAvPgogIDwvZz4KCiAgPCEtLSBTdHlsZSAmIE1ldGFkYXRhIEJhZGdlcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMiwgNDApIj4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJyZ2JhKDAsMCwwLDAuNjUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjE0IiB5PSIyMSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiI+V0lORVIgQUkg4oCiIFBIT1RPUkVBTElTVElDPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBQcm9tcHQgY2FwdGlvbiBiYXIgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzIsIDY1MikiPgogICAgPHJlY3Qgd2lkdGg9IjEyMTYiIGhlaWdodD0iNDIiIHJ4PSIxMCIgZmlsbD0icmdiYSgxMCwxNCwyNiwwLjg1KSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjIwIiB5PSIyNiIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iI2UyZThmMCI+CiAgICAgICJHb2xkZW4gU3Vuc2V0IG92ZXIgTGVra2kgUGVuaW5zdWxhIgogICAgPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBNYW5kYXRvcnkgQUkgVmVyaWZpY2F0aW9uIFdhdGVybWFyayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LCA2NjIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMzUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuOCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSI2OCIgeT0iMTgiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzOGJkZjgiIGxldHRlci1zcGFjaW5nPSIxIj4KICAgICAgV0lORVIgQUkgU1lOVEgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==",
+      "status": "completed",
+      "isTrial": false,
+      "cost": 3000,
+      "id": "cr_5c7c32ec3cc4",
+      "createdAt": "2026-10-29T11:58:45.530Z"
+    },
+    {
+      "userId": "demo_user_1",
+      "tool": "image_gen",
+      "title": "Futuristic Lagos City",
+      "prompt": "Futuristic Lagos City",
+      "style": "Cinematic",
+      "aspectRatio": "16:9",
+      "resultUrl": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBmMTcyYSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxZTFiNGIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzQzMzhjYSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ciIGN4PSI2MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNTllMGIiIHN0b3Atb3BhY2l0eT0iMC44NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiMwNmI2ZDQiIHN0b3Atb3BhY2l0eT0iMC40NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGYxNzJhIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ibm9pc2UiPgogICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wNCIgbnVtT2N0YXZlcz0iNCIgcmVzdWx0PSJub2lzeSIgLz4KICAgICAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjEgMCAwIDAgMCAgMCAxIDAgMCAwICAwIDAgMSAwIDAgIDAgMCAwIDAuMTIgMCIvPgogICAgICA8ZmVDb21wb3NpdGUgaW4yPSJTb3VyY2VHcmFwaGljIiBpbj0ibm9pc3kiIG9wZXJhdG9yPSJhdG9wIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBCYXNlIC0tPgogIDxyZWN0IHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNiZ0dyYWQpIiAvPgoKICA8IS0tIFJlZmVyZW5jZSBpbWFnZSB1bmRlcmxheSBpZiBwcm92aWRlZCAtLT4KICAKCiAgPCEtLSBMdW1pbm91cyBBdG1vc3BoZXJpYyBHbG93IC0tPgogIDxjaXJjbGUgY3g9IjgzMiIgY3k9IjI3My42IiByPSIzMjQiIGZpbGw9InVybCgjZ2xvdykiIC8+CiAgPGNpcmNsZSBjeD0iMzg0IiBjeT0iNTAzLjk5OTk5OTk5OTk5OTk0IiByPSIyNTEuOTk5OTk5OTk5OTk5OTciIGZpbGw9IiMwNmI2ZDQiIG9wYWNpdHk9IjAuMjUiIGZpbHRlcj0iYmx1cig0MHB4KSIgLz4KCiAgPCEtLSBHZW9tZXRyaWMgSG9yaXpvbiAmIENvbXBvc2l0aW9uIExpbmVzIC0tPgogIDxwYXRoIGQ9Ik0gMCA1MTguNCBRIDY0MCA0MzIgMTI4MCA1MTguNCBMIDEyODAgNzIwIEwgMCA3MjAgWiIgZmlsbD0iIzBmMTcyYSIgb3BhY2l0eT0iMC43NSIgLz4KCiAgPCEtLSBDZW50cmFsIFNpbGhvdWV0dGUgLyBGb2NhbCBFbGVtZW50IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCwgMzk2LjAwMDAwMDAwMDAwMDA2KSBzY2FsZSgwLjkpIj4KICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iLTYwIiByeD0iNDUiIHJ5PSI1NSIgZmlsbD0iI2Y1OWUwYiIgb3BhY2l0eT0iMC45IiAvPgogICAgPHBhdGggZD0iTSAtODAgNjAgUSAwIC0yMCA4MCA2MCBMIDYwIDE2MCBMIC02MCAxNjAgWiIgZmlsbD0iIzA2YjZkNCIgb3BhY2l0eT0iMC43NSIgLz4KICAgIDxjaXJjbGUgY3g9Ii0xNSIgY3k9Ii03MCIgcj0iNCIgZmlsbD0iI2ZmZmZmZiIgLz4KICAgIDxjaXJjbGUgY3g9IjE1IiBjeT0iLTcwIiByPSI0IiBmaWxsPSIjZmZmZmZmIiAvPgogIDwvZz4KCiAgPCEtLSBTdHlsZSAmIE1ldGFkYXRhIEJhZGdlcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMiwgNDApIj4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJyZ2JhKDAsMCwwLDAuNjUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjE0IiB5PSIyMSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiI+V0lORVIgQUkg4oCiIENJTkVNQVRJQzwvdGV4dD4KICA8L2c+CgogIDwhLS0gUHJvbXB0IGNhcHRpb24gYmFyIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyLCA2NTIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMjE2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9InJnYmEoMTAsMTQsMjYsMC44NSkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSIyMCIgeT0iMjYiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNlMmU4ZjAiPgogICAgICAiRnV0dXJpc3RpYyBMYWdvcyBDaXR5IgogICAgPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBNYW5kYXRvcnkgQUkgVmVyaWZpY2F0aW9uIFdhdGVybWFyayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LCA2NjIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMzUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuOCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSI2OCIgeT0iMTgiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzOGJkZjgiIGxldHRlci1zcGFjaW5nPSIxIj4KICAgICAgV0lORVIgQUkgU1lOVEgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==",
+      "resultThumb": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBmMTcyYSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMxZTFiNGIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzQzMzhjYSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3ciIGN4PSI2MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmNTllMGIiIHN0b3Atb3BhY2l0eT0iMC44NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiMwNmI2ZDQiIHN0b3Atb3BhY2l0eT0iMC40NSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGYxNzJhIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ibm9pc2UiPgogICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wNCIgbnVtT2N0YXZlcz0iNCIgcmVzdWx0PSJub2lzeSIgLz4KICAgICAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjEgMCAwIDAgMCAgMCAxIDAgMCAwICAwIDAgMSAwIDAgIDAgMCAwIDAuMTIgMCIvPgogICAgICA8ZmVDb21wb3NpdGUgaW4yPSJTb3VyY2VHcmFwaGljIiBpbj0ibm9pc3kiIG9wZXJhdG9yPSJhdG9wIi8+CiAgICA8L2ZpbHRlcj4KICA8L2RlZnM+CgogIDwhLS0gQmFja2dyb3VuZCBCYXNlIC0tPgogIDxyZWN0IHdpZHRoPSIxMjgwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNiZ0dyYWQpIiAvPgoKICA8IS0tIFJlZmVyZW5jZSBpbWFnZSB1bmRlcmxheSBpZiBwcm92aWRlZCAtLT4KICAKCiAgPCEtLSBMdW1pbm91cyBBdG1vc3BoZXJpYyBHbG93IC0tPgogIDxjaXJjbGUgY3g9IjgzMiIgY3k9IjI3My42IiByPSIzMjQiIGZpbGw9InVybCgjZ2xvdykiIC8+CiAgPGNpcmNsZSBjeD0iMzg0IiBjeT0iNTAzLjk5OTk5OTk5OTk5OTk0IiByPSIyNTEuOTk5OTk5OTk5OTk5OTciIGZpbGw9IiMwNmI2ZDQiIG9wYWNpdHk9IjAuMjUiIGZpbHRlcj0iYmx1cig0MHB4KSIgLz4KCiAgPCEtLSBHZW9tZXRyaWMgSG9yaXpvbiAmIENvbXBvc2l0aW9uIExpbmVzIC0tPgogIDxwYXRoIGQ9Ik0gMCA1MTguNCBRIDY0MCA0MzIgMTI4MCA1MTguNCBMIDEyODAgNzIwIEwgMCA3MjAgWiIgZmlsbD0iIzBmMTcyYSIgb3BhY2l0eT0iMC43NSIgLz4KCiAgPCEtLSBDZW50cmFsIFNpbGhvdWV0dGUgLyBGb2NhbCBFbGVtZW50IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0MCwgMzk2LjAwMDAwMDAwMDAwMDA2KSBzY2FsZSgwLjkpIj4KICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iLTYwIiByeD0iNDUiIHJ5PSI1NSIgZmlsbD0iI2Y1OWUwYiIgb3BhY2l0eT0iMC45IiAvPgogICAgPHBhdGggZD0iTSAtODAgNjAgUSAwIC0yMCA4MCA2MCBMIDYwIDE2MCBMIC02MCAxNjAgWiIgZmlsbD0iIzA2YjZkNCIgb3BhY2l0eT0iMC43NSIgLz4KICAgIDxjaXJjbGUgY3g9Ii0xNSIgY3k9Ii03MCIgcj0iNCIgZmlsbD0iI2ZmZmZmZiIgLz4KICAgIDxjaXJjbGUgY3g9IjE1IiBjeT0iLTcwIiByPSI0IiBmaWxsPSIjZmZmZmZmIiAvPgogIDwvZz4KCiAgPCEtLSBTdHlsZSAmIE1ldGFkYXRhIEJhZGdlcyAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMiwgNDApIj4KICAgIDxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSJyZ2JhKDAsMCwwLDAuNjUpIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNSkiIHN0cm9rZS13aWR0aD0iMSIgLz4KICAgIDx0ZXh0IHg9IjE0IiB5PSIyMSIgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiI+V0lORVIgQUkg4oCiIENJTkVNQVRJQzwvdGV4dD4KICA8L2c+CgogIDwhLS0gUHJvbXB0IGNhcHRpb24gYmFyIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyLCA2NTIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMjE2IiBoZWlnaHQ9IjQyIiByeD0iMTAiIGZpbGw9InJnYmEoMTAsMTQsMjYsMC44NSkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSIyMCIgeT0iMjYiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNlMmU4ZjAiPgogICAgICAiRnV0dXJpc3RpYyBMYWdvcyBDaXR5IgogICAgPC90ZXh0PgogIDwvZz4KCiAgPCEtLSBNYW5kYXRvcnkgQUkgVmVyaWZpY2F0aW9uIFdhdGVybWFyayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LCA2NjIpIj4KICAgIDxyZWN0IHdpZHRoPSIxMzUiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSJyZ2JhKDAsMCwwLDAuOCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICA8dGV4dCB4PSI2OCIgeT0iMTgiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzOGJkZjgiIGxldHRlci1zcGFjaW5nPSIxIj4KICAgICAgV0lORVIgQUkgU1lOVEgKICAgIDwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==",
+      "status": "completed",
+      "isTrial": true,
+      "cost": 0,
+      "id": "cr_933c5148a479",
+      "createdAt": "2026-10-29T11:58:26.009Z"
+    },
+    {
+      "id": "creation_sample_1",
+      "userId": "admin_1",
+      "tool": "image_gen",
+      "title": "Cyberpunk Cyber-Samurai in Neo Lagos",
+      "prompt": "A cyberpunk warrior standing under holographic neon signs in futuristic Lagos, cinematic volumetric lighting, 8k",
+      "style": "Cinematic",
+      "aspectRatio": "16:9",
+      "resultUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80",
+      "resultThumb": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&auto=format&fit=crop&q=80",
+      "isFavorite": true,
+      "status": "completed",
+      "isTrial": true,
+      "cost": 0,
+      "createdAt": "2026-10-28T11:57:18.960Z"
+    },
+    {
+      "id": "creation_sample_2",
+      "userId": "admin_1",
+      "tool": "video_gen",
+      "title": "Cosmic Nebula Hyperlapse Drone Shot",
+      "prompt": "Drone camera flying forward through violet stardust and alien planetary ring systems, photorealistic motion",
+      "style": "Drone Aerial",
+      "aspectRatio": "16:9",
+      "duration": 30,
+      "resultUrl": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1200&auto=format&fit=crop&q=80",
+      "resultThumb": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=400&auto=format&fit=crop&q=80",
+      "isFavorite": true,
+      "status": "completed",
+      "isTrial": true,
+      "cost": 0,
+      "createdAt": "2026-10-28T17:57:18.960Z"
+    },
+    {
+      "id": "creation_sample_3",
+      "userId": "admin_1",
+      "tool": "photo_swap",
+      "title": "Renaissance Masterpiece Face Swap",
+      "prompt": "Face swap with classical oil painting portrait",
+      "inputMediaUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&auto=format&fit=crop&q=80",
+      "sourceFaceUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=80",
+      "resultUrl": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=1200&auto=format&fit=crop&q=80",
+      "resultThumb": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=80",
+      "isFavorite": false,
+      "status": "completed",
+      "isTrial": true,
+      "cost": 0,
+      "createdAt": "2026-10-28T23:57:18.960Z"
+    }
+  ],
+  "supportTickets": [
+    {
+      "name": "Aisha Bello",
+      "email": "aisha@domain.com",
+      "subject": "Payment query",
+      "message": "Just transferred ₦15,000 via OPay",
+      "id": "tkt_60cb4086",
+      "status": "open",
+      "createdAt": "2026-10-29T11:59:06.715Z"
+    },
+    {
+      "id": "ticket_1",
+      "userId": "demo_user_1",
+      "name": "Demo Creator",
+      "email": "creator@winerai.com",
+      "subject": "Video face swap format inquiry",
+      "message": "Can I upload a 4K 60fps MP4 video for face replacement?",
+      "status": "resolved",
+      "createdAt": "2026-10-28T05:57:18.960Z"
+    }
+  ],
+  "pricingConfig": {
+    "image_gen": 3000,
+    "photo_swap": 3000,
+    "video_swap": 3000,
+    "video_tiers": [
+      {
+        "id": "tier_30s",
+        "label": "Up to 30 seconds",
+        "maxSeconds": 30,
+        "price": 0,
+        "isFreeTrial": true
+      },
+      {
+        "id": "tier_2m",
+        "label": "Over 30 seconds to 2 minutes",
+        "maxSeconds": 120,
+        "price": 7000
+      },
+      {
+        "id": "tier_5m",
+        "label": "Over 2 minutes to 5 minutes",
+        "maxSeconds": 300,
+        "price": 15000
+      },
+      {
+        "id": "tier_10m",
+        "label": "Over 5 minutes to 10 minutes",
+        "maxSeconds": 600,
+        "price": 25000
+      },
+      {
+        "id": "tier_20m",
+        "label": "Over 10 minutes to 20 minutes",
+        "maxSeconds": 1200,
+        "price": 40000
+      },
+      {
+        "id": "tier_40m",
+        "label": "Over 20 minutes to 40 minutes",
+        "maxSeconds": 2400,
+        "price": 65000
+      },
+      {
+        "id": "tier_60m",
+        "label": "Over 40 minutes to 60 minutes",
+        "maxSeconds": 3600,
+        "price": 85000
+      }
+    ]
+  }
+}

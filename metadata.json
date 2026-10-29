@@ -1,0 +1,6 @@
+{
+  "name": "Winer AI Video Generator",
+  "description": "Create stunning AI images, generate cinematic videos, and transform photos and videos with powerful AI face-swapping tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
