@@ -181,27 +181,38 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     <ShieldAlert className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Admin Panel</span>
+                    <span className="hidden sm:inline">Admin</span>
                   </button>
                 )}
 
                 <button
                   onClick={() => navigateTo('dashboard')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-colors flex items-center gap-2 ${
                     activeView === 'dashboard'
                       ? 'bg-indigo-600 text-white border-indigo-500 shadow-md shadow-indigo-600/30'
                       : 'bg-slate-900 text-slate-200 border-slate-700 hover:bg-slate-800'
                   }`}
+                  title={currentUser.email}
                 >
-                  <LayoutDashboard className="w-3.5 h-3.5 text-indigo-400" />
+                  {currentUser.avatarUrl ? (
+                    <img
+                      src={currentUser.avatarUrl}
+                      alt={currentUser.name}
+                      className="w-5 h-5 rounded-full object-cover bg-slate-800"
+                    />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center">
+                      {currentUser.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <span className="hidden sm:inline">{currentUser.name.split(' ')[0]}</span>
                   <span className="sm:hidden">Dashboard</span>
                 </button>
 
                 <button
                   onClick={onLogout}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                  title="Log out"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  title={`Log out from ${currentUser.email}`}
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -210,10 +221,36 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={onOpenAuth}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs sm:text-sm font-bold shadow-md shadow-indigo-600/20 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs font-bold shadow transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <LogIn className="w-4 h-4" />
-                  <span>Start Free Trial</span>
+                  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                    <path
+                      fill="#4285F4"
+                      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.87c2.27-2.09 3.675-5.17 3.675-9.14z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.87-3.04c-1.08.72-2.45 1.16-4.06 1.16-3.13 0-5.78-2.11-6.73-4.96H1.24v3.13C3.26 21.36 7.36 24 12 24z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.27 14.25c-.25-.72-.38-1.49-.38-2.25 0-.76.13-1.53.38-2.25V6.62H1.24C.45 8.19 0 9.99 0 12s.45 3.81 1.24 5.38l4.03-3.13z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.26 2.64 1.24 6.62l4.03 3.13c.95-2.85 3.6-4.96 6.73-4.96z"
+                    />
+                  </svg>
+                  <span className="hidden sm:inline">Google Sign In</span>
+                  <span className="sm:hidden">Google</span>
+                </button>
+
+                <button
+                  onClick={onOpenAuth}
+                  className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md shadow-indigo-600/30 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
                 </button>
               </div>
             )}

@@ -19,6 +19,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  avatarUrl?: string;
   passwordHash: string;
   role: 'user' | 'admin';
   createdAt: string;
@@ -331,6 +332,56 @@ class Database {
         video_gen: true, // 1 free trial eligible (up to 30s)
         photo_swap: true, // 1 free trial eligible
         video_swap: true, // 1 free trial eligible
+      },
+      authorizedOperations: [],
+    };
+
+    this.data.users.push(newUser);
+    this.save();
+    return newUser;
+  }
+
+  public findOrCreateUser(
+    email: string,
+    name?: string,
+    avatarUrl?: string,
+    role: 'user' | 'admin' = 'user'
+  ): User {
+    const cleanEmail = email.trim().toLowerCase();
+    let user = this.getUserByEmail(cleanEmail);
+
+    if (user) {
+      if (name && (!user.name || user.name === 'User')) {
+        user.name = name;
+      }
+      if (avatarUrl && !user.avatarUrl) {
+        user.avatarUrl = avatarUrl;
+      }
+      this.save();
+      return user;
+    }
+
+    // Generate fallback display name from email (e.g. destiny from destiny@gmail.com -> Destiny)
+    const fallbackName =
+      name && name.trim()
+        ? name.trim()
+        : cleanEmail.split('@')[0].charAt(0).toUpperCase() + cleanEmail.split('@')[0].slice(1);
+
+    const newUser: User = {
+      id: 'usr_' + crypto.randomUUID().replace(/-/g, '').slice(0, 12),
+      name: fallbackName,
+      email: cleanEmail,
+      avatarUrl:
+        avatarUrl ||
+        `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cleanEmail)}`,
+      passwordHash: hashPassword('easy-login-pass'),
+      role,
+      createdAt: new Date().toISOString(),
+      trials: {
+        image_gen: true,
+        video_gen: true,
+        photo_swap: true,
+        video_swap: true,
       },
       authorizedOperations: [],
     };

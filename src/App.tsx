@@ -21,6 +21,7 @@ export default function App() {
 
   // Modals
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [targetToolAfterAuth, setTargetToolAfterAuth] = useState<ActiveView>('video_gen');
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [checkoutDetails, setCheckoutDetails] = useState<CheckoutDetails | null>(null);
   const [legalModalOpen, setLegalModalOpen] = useState(false);
@@ -44,11 +45,14 @@ export default function App() {
           localStorage.removeItem('winer_user_id');
         });
     } else {
-      // Auto-load demo user by default so the user is immediately authenticated with 4 trials ready!
-      fetch('/api/auth/login', {
+      // Auto-initialize with Google user account so 4 trials are immediately available!
+      fetch('/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'creator@winerai.com', password: 'password123' }),
+        body: JSON.stringify({
+          email: 'ebaluegbefodestiny@gmail.com',
+          name: 'Destiny Ebaluegbefo',
+        }),
       })
         .then((r) => r.json())
         .then((data) => {
@@ -61,9 +65,18 @@ export default function App() {
     }
   }, []);
 
-  const handleAuthSuccess = (user: User, token: string) => {
+  const handleOpenAuth = (tool: ActiveView = 'video_gen') => {
+    setTargetToolAfterAuth(tool);
+    setAuthModalOpen(true);
+  };
+
+  const handleAuthSuccess = (user: User, token: string, destinationTool?: ActiveView) => {
     setCurrentUser(user);
     localStorage.setItem('winer_user_id', token);
+    setAuthModalOpen(false);
+    // TAKE USER DIRECTLY TO THE TARGET TOOL PAGE!
+    const destination = destinationTool || targetToolAfterAuth || 'video_gen';
+    setActiveView(destination);
   };
 
   const handleLogout = () => {
@@ -103,7 +116,7 @@ export default function App() {
         activeView={activeView}
         setActiveView={setActiveView}
         currentUser={currentUser}
-        onOpenAuth={() => setAuthModalOpen(true)}
+        onOpenAuth={() => handleOpenAuth('video_gen')}
         onLogout={handleLogout}
         onQuickCheckout={handleOpenCheckout}
       />
@@ -112,15 +125,16 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeView === 'home' && (
           <HeroHome
+            currentUser={currentUser}
             onSelectTool={(tool) => setActiveView(tool)}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={(tool) => handleOpenAuth(tool || 'video_gen')}
           />
         )}
 
         {activeView === 'image_gen' && (
           <ImageGenerator
             currentUser={currentUser}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('image_gen')}
             onOpenCheckout={handleOpenCheckout}
           />
         )}
@@ -128,7 +142,7 @@ export default function App() {
         {activeView === 'video_gen' && (
           <VideoGenerator
             currentUser={currentUser}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('video_gen')}
             onOpenCheckout={handleOpenCheckout}
           />
         )}
@@ -136,7 +150,7 @@ export default function App() {
         {activeView === 'photo_swap' && (
           <PhotoFaceSwap
             currentUser={currentUser}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('photo_swap')}
             onOpenCheckout={handleOpenCheckout}
           />
         )}
@@ -144,7 +158,7 @@ export default function App() {
         {activeView === 'video_swap' && (
           <VideoFaceSwap
             currentUser={currentUser}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('video_swap')}
             onOpenCheckout={handleOpenCheckout}
           />
         )}
@@ -153,14 +167,14 @@ export default function App() {
           <UserDashboard
             currentUser={currentUser}
             onNavigateTool={(tool) => setActiveView(tool)}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('video_gen')}
           />
         )}
 
         {activeView === 'pricing' && (
           <PricingPage
             onOpenCheckout={handleOpenCheckout}
-            onOpenAuth={() => setAuthModalOpen(true)}
+            onOpenAuth={() => handleOpenAuth('video_gen')}
           />
         )}
 
@@ -182,6 +196,7 @@ export default function App() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         onAuthSuccess={handleAuthSuccess}
+        targetTool={targetToolAfterAuth}
       />
 
       <LegalModal

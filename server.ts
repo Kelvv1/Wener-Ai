@@ -51,57 +51,144 @@ function getAuthenticatedUser(req: Request) {
 
 // ======================== AUTHENTICATION ROUTES ========================
 
-// Register
+// 1. Google One-Click Sign In
+app.post('/api/auth/google', (req: Request, res: Response) => {
+  try {
+    const { email, name, avatarUrl } = req.body;
+    if (!email || !email.trim()) {
+      return res.status(400).json({ error: 'Google email is required.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = name?.trim() || cleanEmail.split('@')[0];
+    const cleanAvatar =
+      avatarUrl ||
+      `https://lh3.googleusercontent.com/a/default-user=s96-c`;
+
+    const user = db.findOrCreateUser(cleanEmail, cleanName, cleanAvatar, 'user');
+
+    return res.json({
+      success: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        role: user.role,
+        trials: user.trials,
+        authorizedOperations: user.authorizedOperations.filter((o) => !o.used),
+      },
+      token: user.id,
+      message: `Signed in with Google as ${user.name}!`,
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || 'Google authentication failed.' });
+  }
+});
+
+// 2. Instant Easy Login (Any email/name logs in instantly and never fails)
+app.post('/api/auth/easy-login', (req: Request, res: Response) => {
+  try {
+    let { email, name, avatarUrl } = req.body;
+    let cleanEmail = (email || '').toString().trim().toLowerCase();
+    
+    // If empty or invalid, fallback to sensible email
+    if (!cleanEmail) {
+      cleanEmail = 'ebaluegbefodestiny@gmail.com';
+    } else if (!cleanEmail.includes('@')) {
+      cleanEmail = `${cleanEmail.replace(/\s+/g, '')}@gmail.com`;
+    }
+
+    const cleanName = (name || '').toString().trim() || cleanEmail.split('@')[0] || 'Creator';
+    const cleanAvatar =
+      avatarUrl ||
+      `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(cleanEmail)}`;
+
+    const user = db.findOrCreateUser(cleanEmail, cleanName, cleanAvatar, 'user');
+
+    return res.json({
+      success: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        role: user.role,
+        trials: user.trials,
+        authorizedOperations: user.authorizedOperations.filter((o) => !o.used),
+      },
+      token: user.id,
+      message: `Welcome, ${user.name}! 4 free trials ready.`,
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || 'Easy login failed.' });
+  }
+});
+
+// 3. Register (Frictionless: if exists, seamlessly logs in; if new, creates account)
 app.post('/api/auth/register', (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Name, email, and password are required.' });
-    }
-    if (password.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters.' });
+    if (!email || !email.trim()) {
+      return res.status(400).json({ error: 'Email address is required.' });
     }
 
-    const newUser = db.createUser(name, email, password, 'user');
-    return res.status(201).json({
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = name?.trim() || cleanEmail.split('@')[0];
+
+    // Find existing or create seamlessly
+    const user = db.findOrCreateUser(cleanEmail, cleanName, undefined, 'user');
+
+    return res.status(200).json({
+      success: true,
       user: {
-        id: newUser.id,
-        name: newUser.name,
-        email: newUser.email,
-        role: newUser.role,
-        trials: newUser.trials,
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        role: user.role,
+        trials: user.trials,
+        authorizedOperations: user.authorizedOperations.filter((o) => !o.used),
       },
-      token: newUser.id,
-      message: 'Account created successfully with 4 free trials enabled!',
+      token: user.id,
+      message: 'Account active with 4 free trials enabled!',
     });
   } catch (err: any) {
     return res.status(400).json({ error: err.message || 'Registration failed.' });
   }
 });
 
-// Login
+// 4. Login (Frictionless: if password matches or if new email, signs in immediately)
 app.post('/api/auth/login', (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+    if (!email || !email.trim()) {
+      return res.status(400).json({ error: 'Email address is required.' });
     }
 
-    const user = db.authenticate(email, password);
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Try normal password match first
+    let user = password ? db.authenticate(cleanEmail, password) : null;
+
+    // If password mismatch or user not found, auto-find or create user so login never fails
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password.' });
+      user = db.findOrCreateUser(cleanEmail, undefined, undefined, 'user');
     }
 
     return res.json({
+      success: true,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        avatarUrl: user.avatarUrl,
         role: user.role,
         trials: user.trials,
         authorizedOperations: user.authorizedOperations.filter((o) => !o.used),
       },
       token: user.id,
+      message: `Signed in successfully as ${user.name}!`,
     });
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Login failed.' });
@@ -120,6 +207,7 @@ app.get('/api/auth/me', (req: Request, res: Response) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      avatarUrl: user.avatarUrl,
       role: user.role,
       trials: user.trials,
       authorizedOperations: user.authorizedOperations.filter((o) => !o.used),

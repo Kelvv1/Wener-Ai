@@ -93,16 +93,36 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Header Banner */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs uppercase font-bold text-indigo-400 font-mono tracking-wider">
-            Creator Dashboard
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-white mt-1">
-            Welcome back, {currentUser.name}!
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            {currentUser.email} • Member since {new Date(currentUser.createdAt || Date.now()).toLocaleDateString()}
-          </p>
+        <div className="flex items-center gap-4">
+          {currentUser.avatarUrl ? (
+            <img
+              src={currentUser.avatarUrl}
+              alt={currentUser.name}
+              className="w-14 h-14 rounded-2xl object-cover border-2 border-indigo-500/30"
+            />
+          ) : (
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xl font-bold border-2 border-indigo-500/30">
+              {currentUser.name.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs uppercase font-bold text-indigo-400 font-mono tracking-wider">
+                Creator Dashboard
+              </span>
+              {currentUser.email.includes('gmail.com') && (
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold flex items-center gap-1">
+                  Google Connected
+                </span>
+              )}
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white mt-0.5">
+              Welcome back, {currentUser.name}!
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+              {currentUser.email} • Member since {new Date(currentUser.createdAt || Date.now()).toLocaleDateString()}
+            </p>
+          </div>
         </div>
 
         {/* Free Trials Pill Matrix */}

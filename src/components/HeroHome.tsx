@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActiveView } from '../types';
+import { ActiveView, User } from '../types';
 import {
   Sparkles,
   Video,
@@ -24,11 +24,12 @@ import {
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 
 interface HeroHomeProps {
+  currentUser?: User | null;
   onSelectTool: (tool: ActiveView) => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (targetTool?: ActiveView) => void;
 }
 
-export const HeroHome: React.FC<HeroHomeProps> = ({ onSelectTool, onOpenAuth }) => {
+export const HeroHome: React.FC<HeroHomeProps> = ({ currentUser, onSelectTool, onOpenAuth }) => {
   const [selectedDurationTab, setSelectedDurationTab] = useState(30);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -92,17 +93,52 @@ export const HeroHome: React.FC<HeroHomeProps> = ({ onSelectTool, onOpenAuth }) 
 
         {/* Call to Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+          {/* Prominent Primary: START FEATURE */}
           <button
-            onClick={onOpenAuth}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
+            onClick={() => {
+              if (currentUser) {
+                onSelectTool('video_gen');
+              } else {
+                onOpenAuth('video_gen');
+              }
+            }}
+            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-extrabold text-base sm:text-lg shadow-xl shadow-indigo-600/35 transition-all hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer ring-2 ring-indigo-400/40"
           >
-            <Zap className="w-5 h-5 text-amber-300 fill-amber-300" />
-            <span>Start Free Trial</span>
+            <Zap className="w-5 h-5 text-amber-300 fill-amber-300 animate-pulse" />
+            <span>Start Feature</span>
+            <ArrowRight className="w-5 h-5" />
           </button>
 
+          {/* Google Sign In */}
+          <button
+            onClick={() => onOpenAuth('video_gen')}
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-sm sm:text-base shadow-xl shadow-white/10 transition-all hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer"
+          >
+            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.87c2.27-2.09 3.675-5.17 3.675-9.14z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.87-3.04c-1.08.72-2.45 1.16-4.06 1.16-3.13 0-5.78-2.11-6.73-4.96H1.24v3.13C3.26 21.36 7.36 24 12 24z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.27 14.25c-.25-.72-.38-1.49-.38-2.25 0-.76.13-1.53.38-2.25V6.62H1.24C.45 8.19 0 9.99 0 12s.45 3.81 1.24 5.38l4.03-3.13z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.26 2.64 1.24 6.62l4.03 3.13c.95-2.85 3.6-4.96 6.73-4.96z"
+              />
+            </svg>
+            <span>Sign In with Google</span>
+          </button>
+
+          {/* Explore AI Tools */}
           <button
             onClick={() => onSelectTool('video_gen')}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-base transition-all flex items-center justify-center gap-2 hover:border-slate-500 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2 hover:border-slate-500 cursor-pointer"
           >
             <Video className="w-5 h-5 text-cyan-400" />
             <span>Explore AI Tools</span>
@@ -502,10 +538,17 @@ export const HeroHome: React.FC<HeroHomeProps> = ({ onSelectTool, onOpenAuth }) 
           Fast, photorealistic, and mobile-friendly.
         </p>
         <button
-          onClick={onOpenAuth}
-          className="px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 cursor-pointer"
+          onClick={() => {
+            if (currentUser) {
+              onSelectTool('video_gen');
+            } else {
+              onOpenAuth('video_gen');
+            }
+          }}
+          className="px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 cursor-pointer inline-flex items-center gap-2"
         >
-          Claim Your Free Trials Now
+          <Zap className="w-5 h-5 text-amber-300 fill-amber-300" />
+          <span>Start Feature (Claim Free Trials)</span>
         </button>
       </section>
     </div>
