@@ -34,7 +34,7 @@ const DEFAULT_USER: User = {
 
 export default function App() {
   const [activeView, setActiveView] = useState<ActiveView>('home');
-  const [currentUser, setCurrentUser] = useState<User>(() => {
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
     try {
       const saved = localStorage.getItem('winer_user_data');
       if (saved) return JSON.parse(saved);
@@ -53,12 +53,13 @@ export default function App() {
   // Sync user session on mount
   useEffect(() => {
     // Ensure default user is in local storage
-    if (!localStorage.getItem('winer_user_data')) {
+    if (currentUser && !localStorage.getItem('winer_user_data')) {
       localStorage.setItem('winer_user_data', JSON.stringify(currentUser));
       localStorage.setItem('winer_user_id', currentUser.id);
     }
 
     const syncWithBackend = async () => {
+      if (!currentUser) return;
       const savedToken = localStorage.getItem('winer_user_id') || currentUser.id;
       const { ok, data } = await safeFetchJson('/api/auth/me', {
         headers: { Authorization: `Bearer ${savedToken}` },
@@ -116,17 +117,15 @@ export default function App() {
     setCheckoutModalOpen(true);
   };
 
-  const handlePaymentSubmitted = () => {
-    // Refresh user trials and active authorizations
+  const handlePaymentSubmitted = async () => {
+    // Refresh user trials and active authorizations safely
     if (currentUser) {
-      fetch('/api/auth/me', {
+      const res = await safeFetchJson<{ user?: User }>('/api/auth/me', {
         headers: { Authorization: `Bearer ${currentUser.id}` },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.user) setCurrentUser(data.user);
-        })
-        .catch(() => {});
+      });
+      if (res.data?.user) {
+        setCurrentUser(res.data.user);
+      }
     }
   };
 

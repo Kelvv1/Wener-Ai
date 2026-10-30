@@ -22,6 +22,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { safeFetchJson } from '../utils/apiSafe';
+import { downloadMediaFile } from '../utils/downloadHelper';
 
 interface UserDashboardProps {
   currentUser: User | null;
@@ -81,7 +82,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   const handleDeleteCreation = async (id: string) => {
     try {
-      await fetch(`/api/creations/${id}`, {
+      await safeFetchJson(`/api/creations/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${currentUser.id}` },
       });
@@ -89,6 +90,21 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
       if (selectedCreation?.id === id) setSelectedCreation(null);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  const handleDownloadCreation = async (c: CreationRecord) => {
+    if (!c.resultUrl) return;
+    setDownloadingId(c.id);
+    const ext = c.tool.includes('video') ? 'mp4' : 'png';
+    try {
+      await downloadMediaFile(c.resultUrl, `winer-ai-${c.tool}-${c.id}.${ext}`);
+    } catch (err) {
+      console.error('Download creation error:', err);
+    } finally {
+      setDownloadingId(null);
     }
   };
 
@@ -396,14 +412,15 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
                         </div>
                         <div className="space-y-1">
                           <span className="text-[11px] font-bold text-white block truncate">{c.title}</span>
-                          <a
-                            href={c.resultUrl}
-                            download={`winer-ai-${c.id}.png`}
-                            className="w-full py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 shadow"
+                          <button
+                            type="button"
+                            onClick={() => handleDownloadCreation(c)}
+                            disabled={downloadingId === c.id}
+                            className="w-full py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 shadow cursor-pointer active:scale-95 disabled:opacity-60"
                           >
                             <Download className="w-3 h-3" />
-                            <span>Download</span>
-                          </a>
+                            <span>{downloadingId === c.id ? 'Downloading...' : 'Download'}</span>
+                          </button>
                         </div>
                       </div>
                     </div>

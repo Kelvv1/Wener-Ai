@@ -759,6 +759,46 @@ app.delete('/api/creations/:id', (req: Request, res: Response) => {
   return res.json({ success: true, message: 'Creation permanently removed from storage.' });
 });
 
+// Universal Media Download Proxy
+app.get('/api/download', async (req: Request, res: Response) => {
+  const fileUrl = req.query.url as string;
+  const fileName = (req.query.filename as string) || 'winer-ai-media.mp4';
+
+  if (!fileUrl) {
+    return res.status(400).send('Missing url parameter');
+  }
+
+  try {
+    if (fileUrl.startsWith('data:')) {
+      const matches = fileUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      if (matches && matches.length === 3) {
+        const contentType = matches[1];
+        const buffer = Buffer.from(matches[2], 'base64');
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+        res.setHeader('Content-Type', contentType);
+        return res.send(buffer);
+      }
+    }
+
+    const response = await fetch(fileUrl);
+    if (!response.ok) {
+      return res.status(response.status).send('Failed to fetch media resource');
+    }
+
+    const contentType = response.headers.get('content-type') || 'application/octet-stream';
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    return res.send(buffer);
+  } catch (err: any) {
+    console.error('Download proxy error:', err);
+    return res.status(500).send('Download failed: ' + (err.message || 'Error'));
+  }
+});
+
 // ======================== ADMIN DASHBOARD ========================
 
 // Analytics
@@ -960,9 +1000,10 @@ function createProceduralVideoMedia(prompt: string, style: string, durationSec: 
   // Generate video thumbnail and media representation
   const thumbUrl = createProceduralImageSvg(prompt || 'Cinematic Video Render', style, '16:9', 42, uploadedImage);
   const sampleVideos = [
-    'https://assets.mixkit.co/videos/preview/mixkit-clouds-and-blue-sky-2408-large.mp4',
-    'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4',
-    'https://assets.mixkit.co/videos/preview/mixkit-silhouette-of-a-person-walking-in-a-forest-42861-large.mp4',
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
   ];
   const videoUrl = sampleVideos[Math.floor(Math.random() * sampleVideos.length)];
 
@@ -977,19 +1018,45 @@ function createProceduralVideoMedia(prompt: string, style: string, durationSec: 
   };
 }
 
-// Photo Face Swap procedural generator
+// Photo Face Swap procedural generator - Seamless Merge Engine
 function createPhotoSwapResult(targetUrl: string, sourceUrl: string, twoWay: boolean = false): string {
+  const safeTarget = escapeXml(targetUrl);
+  const safeSource = escapeXml(sourceUrl);
+
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
   <defs>
-    <radialGradient id="feather" cx="50%" cy="50%" r="50%">
-      <stop offset="60%" stop-color="#ffffff" stop-opacity="1" />
-      <stop offset="88%" stop-color="#ffffff" stop-opacity="0.6" />
+    <!-- Soft Gaussian blur filter for feathering boundary -->
+    <filter id="softFeatherFilter" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="20" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="atop" />
+    </filter>
+
+    <!-- Multi-stage radial gradient for deep interior opacity and ultra-soft boundary feathering -->
+    <radialGradient id="organicFaceFeather" cx="50%" cy="48%" r="48%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="74%" stop-color="#ffffff" stop-opacity="0.88" />
+      <stop offset="88%" stop-color="#ffffff" stop-opacity="0.45" />
+      <stop offset="96%" stop-color="#ffffff" stop-opacity="0.12" />
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
     </radialGradient>
-    <mask id="faceMask">
-      <ellipse cx="400" cy="370" rx="145" ry="190" fill="url(#feather)" />
+
+    <!-- Seamless Facial Contour Mask with organic jawline and forehead curves -->
+    <mask id="seamlessFaceMask" maskUnits="userSpaceOnUse" x="0" y="0" width="800" height="800">
+      <g filter="url(#softFeatherFilter)">
+        <path d="
+          M 400 175
+          C 525 170, 542 295, 537 360
+          C 533 425, 491 510, 400 545
+          C 309 510, 267 425, 263 360
+          C 258 295, 275 170, 400 175
+          Z"
+          fill="url(#organicFaceFeather)" />
+      </g>
     </mask>
-    <filter id="skinToneHarmonize">
+
+    <!-- Skin Tone & Luminosity Harmonization Filter -->
+    <filter id="skinToneHarmonize" x="0%" y="0%" width="100%" height="100%">
       <feColorMatrix type="matrix" values="
         1.04 0 0 0 0.02
         0 1.02 0 0 0.01
@@ -998,30 +1065,34 @@ function createPhotoSwapResult(targetUrl: string, sourceUrl: string, twoWay: boo
     </filter>
   </defs>
 
-  <!-- 1. Background Target Photo -->
-  <image href="${escapeXml(targetUrl)}" x="0" y="0" width="800" height="800" preserveAspectRatio="xMidYMid slice" />
+  <!-- 1. Background Target Portrait (Body, Hair, Neck, Environment) -->
+  <image href="${safeTarget}" x="0" y="0" width="800" height="800" preserveAspectRatio="xMidYMid slice" />
 
-  <!-- 2. Transferred Replacement Face -->
-  <g mask="url(#faceMask)" filter="url(#skinToneHarmonize)">
-    <image href="${escapeXml(sourceUrl)}" x="230" y="150" width="340" height="440" preserveAspectRatio="xMidYMid slice" />
+  <!-- 2. Seamlessly Merged Replacement Face -->
+  <g mask="url(#seamlessFaceMask)">
+    <!-- Aligned face with tone match -->
+    <image href="${safeSource}" x="230" y="145" width="340" height="430" preserveAspectRatio="xMidYMid slice" filter="url(#skinToneHarmonize)" />
+    <!-- Ambient light transfer: carries target photo's natural scene lighting onto swapped face -->
+    <image href="${safeTarget}" x="0" y="0" width="800" height="800" preserveAspectRatio="xMidYMid slice" style="mix-blend-mode: soft-light; opacity: 0.35;" />
   </g>
 
   <!-- 3. Two-Way inset preview if requested -->
   ${twoWay ? `
   <g transform="translate(24, 24)">
-    <rect width="180" height="180" rx="14" fill="#09090b" stroke="rgba(255,255,255,0.3)" stroke-width="2" />
-    <image href="${escapeXml(sourceUrl)}" x="0" y="0" width="180" height="180" preserveAspectRatio="xMidYMid slice" rx="14" />
-    <g mask="url(#faceMask)">
-      <image href="${escapeXml(targetUrl)}" x="30" y="20" width="120" height="140" preserveAspectRatio="xMidYMid slice" />
+    <rect width="180" height="180" rx="16" fill="#09090b" stroke="rgba(255,255,255,0.25)" stroke-width="2" />
+    <image href="${safeSource}" x="0" y="0" width="180" height="180" preserveAspectRatio="xMidYMid slice" rx="16" />
+    <g transform="scale(0.24) translate(40, 40)" mask="url(#seamlessFaceMask)">
+      <image href="${safeTarget}" x="0" y="0" width="800" height="800" preserveAspectRatio="xMidYMid slice" />
     </g>
-    <rect y="148" width="180" height="32" fill="rgba(0,0,0,0.8)" rx="0 0 14 14" />
-    <text x="90" y="168" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#a855f7" text-anchor="middle">TWO-WAY SWAP</text>
+    <rect y="148" width="180" height="32" fill="rgba(0,0,0,0.85)" rx="0 0 16 16" />
+    <text x="90" y="169" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#a855f7" text-anchor="middle">TWO-WAY MERGE</text>
   </g>` : ''}
 
   <!-- 4. Mandatory Winer AI Watermark Badge -->
-  <g id="winer-ai-watermark" transform="translate(560, 750)">
-    <rect x="-10" y="-20" width="225" height="34" rx="8" fill="rgba(9, 13, 24, 0.88)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
-    <text x="102" y="2" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="900" text-anchor="middle" fill="#ffffff" letter-spacing="1">
+  <g id="winer-ai-watermark" transform="translate(560, 746)">
+    <rect x="-10" y="-18" width="225" height="36" rx="10" fill="rgba(9, 13, 24, 0.90)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" />
+    <circle cx="6" cy="0" r="4" fill="#6366f1" />
+    <text x="108" y="5" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="900" text-anchor="middle" fill="#ffffff" letter-spacing="1.2">
       WINER AI • SWAP
     </text>
   </g>
@@ -1043,7 +1114,7 @@ function createVideoSwapResult(targetVideoUrl: string, sourceFaceUrl: string, pr
       targetVideoUrl.startsWith('http') ||
       targetVideoUrl.startsWith('blob:'))
       ? targetVideoUrl
-      : 'https://assets.mixkit.co/videos/preview/mixkit-woman-smiling-at-the-camera-42866-large.mp4';
+      : 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
 
   return {
     videoUrl: finalVideoUrl,

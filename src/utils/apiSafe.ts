@@ -3,10 +3,10 @@
  * client-side fallback for static deployments (such as Vercel) where Express backend is not active.
  */
 
-export async function safeFetchJson(url: string, options: RequestInit = {}): Promise<{
+export async function safeFetchJson<T = any>(url: string, options: RequestInit = {}): Promise<{
   ok: boolean;
   status: number;
-  data: any;
+  data: T | null;
 }> {
   try {
     const res = await fetch(url, options);

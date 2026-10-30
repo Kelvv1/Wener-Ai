@@ -8,6 +8,7 @@ import {
   Zap,
   CheckCircle2,
 } from 'lucide-react';
+import { safeFetchJson } from '../utils/apiSafe';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -63,102 +64,61 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     return localUser;
   };
 
-  // 1. Google 1-Click Login
-  const handleGoogleSignIn = async (userEmail?: string, userName?: string) => {
-    setSuccessMsg(null);
+  // 1. Google 1-Click Login - Instant & Unblockable
+  const handleGoogleSignIn = (userEmail?: string, userName?: string) => {
     setIsSubmitting(true);
-
     const targetEmail = (userEmail || email || 'ebaluegbefodestiny@gmail.com').trim().toLowerCase();
     const targetName = userName || (name.trim() ? name.trim() : 'Destiny Ebaluegbefo');
 
-    try {
-      const res = await fetch('/api/auth/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: targetEmail,
-          name: targetName,
-          avatarUrl: 'https://lh3.googleusercontent.com/a/default-user=s96-c',
-        }),
-      });
-
-      const text = await res.text();
-      let data: any = null;
-      if (text && text.trim().startsWith('{')) {
-        try {
-          data = JSON.parse(text);
-        } catch {}
-      }
-
-      if (res.ok && data && data.user) {
-        setSuccessMsg(`Welcome, ${data.user.name}! Taking you to the studio...`);
-        setTimeout(() => {
-          onAuthSuccess(data.user, data.token || data.user.id, targetTool);
-          onClose();
-        }, 300);
-        return;
-      }
-    } catch {
-      // Backend not reached or static deployment (Vercel) -> seamless local fallback
-    }
-
-    // Always succeed seamlessly with local account
+    // Immediately establish local session so user is never blocked
     const localUser = createLocalUser(targetName, targetEmail);
-    setSuccessMsg(`Welcome, ${localUser.name}! Taking you to the studio...`);
+    setSuccessMsg(`Welcome, ${localUser.name}! Opening studio...`);
+
+    // Asynchronously ping backend in background (fire-and-forget)
+    safeFetchJson<{ user: User; token: string }>('/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: targetEmail,
+        name: targetName,
+        avatarUrl: 'https://lh3.googleusercontent.com/a/default-user=s96-c',
+      }),
+    }).catch(() => {});
+
     setTimeout(() => {
       onAuthSuccess(localUser, localUser.id, targetTool);
       onClose();
       setIsSubmitting(false);
-    }, 300);
+    }, 150);
   };
 
-  // 2. Put your name and email -> Takes you directly to the next page!
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 2. Put your name and email -> Takes you directly to the studio immediately!
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccessMsg(null);
     setIsSubmitting(true);
 
-    const targetEmail = email.trim() || 'ebaluegbefodestiny@gmail.com';
-    const targetName = name.trim() || 'Destiny Ebaluegbefo';
+    const targetEmail = (email || 'ebaluegbefodestiny@gmail.com').trim().toLowerCase();
+    const targetName = (name || 'Destiny Ebaluegbefo').trim();
 
-    try {
-      const res = await fetch('/api/auth/easy-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: targetEmail,
-          name: targetName,
-        }),
-      });
-
-      const text = await res.text();
-      let data: any = null;
-      if (text && text.trim().startsWith('{')) {
-        try {
-          data = JSON.parse(text);
-        } catch {}
-      }
-
-      if (res.ok && data && data.user) {
-        setSuccessMsg(`Welcome, ${data.user.name}! Redirecting to studio...`);
-        setTimeout(() => {
-          onAuthSuccess(data.user, data.token || data.user.id, targetTool);
-          onClose();
-        }, 300);
-        return;
-      }
-    } catch {
-      // Backend not reached or static host (Vercel) -> seamless local fallback
-    }
-
-    // Seamless instant entry fallback: never fail or throw error!
+    // Instant local activation
     const localUser = createLocalUser(targetName, targetEmail);
-    setSuccessMsg(`Welcome, ${localUser.name}! Redirecting to studio...`);
+    setSuccessMsg(`Welcome, ${localUser.name}! Opening studio...`);
+
+    // Asynchronously register in backend if available
+    safeFetchJson<{ user: User; token: string }>('/api/auth/easy-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: targetEmail,
+        name: targetName,
+      }),
+    }).catch(() => {});
+
     setTimeout(() => {
       onAuthSuccess(localUser, localUser.id, targetTool);
       onClose();
       setIsSubmitting(false);
-    }, 300);
+    }, 150);
   };
 
   return (
